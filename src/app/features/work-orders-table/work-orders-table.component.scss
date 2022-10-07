@@ -1,0 +1,32 @@
+@use '/src/styles/mixins.scss' as *;
+
+:host {
+  @include vertical-centered-flexbox;
+  gap: 15px;
+  width: 100%;
+  height: 100%;
+
+  table, th, td {
+    border: 1px solid;
+    text-align: center;
+  }
+
+  table {
+    table-layout: fixed;
+    width: 90%;
+
+    td {
+      padding: 2px;
+    }
+  }
+
+  .input-container {
+    @include vertical-centered-flexbox;
+    gap: 5px;
+
+    .buttons-container {
+      display: flex;
+      gap: 5px;
+    }
+  }
+}

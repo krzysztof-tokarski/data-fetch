@@ -1,0 +1,67 @@
+<ng-container *ngIf="fetchedWorkOrders; else loading">
+  <h1>Work Orders Table</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>WO ID</th>
+        <th colspan="3">Description</th>
+        <th colspan="2">Received date</th>
+        <th colspan="2">Assigned to</th>
+        <th colspan="2">Status</th>
+        <th colspan="2">Priority</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngIf="filteredWorkOrders.length; else noMatchingWorkOrders">
+        <tr *ngFor="let order of filteredWorkOrders">
+          <td>
+            {{order.work_order_id}}
+          </td>
+          <td colspan="3">
+            {{order.description}}
+          </td>
+          <td colspan="2">
+            {{order.received_date | date: 'medium'}}
+          </td>
+          <td colspan="2">
+            <ng-container *ngIf="order.assigned_to?.length; else noAssignment">
+              <p *ngFor="let assignment of order.assigned_to">
+                {{assignment.person_name}}
+              </p>
+            </ng-container>
+            <ng-template #noAssignment>
+              <p>N/A</p>
+            </ng-template>
+          </td>
+          <td colspan="2">
+            {{order.status}}
+          </td>
+          <td colspan="2">
+            {{order.priority}}
+          </td>
+        </tr>
+      </ng-container>
+      <ng-template #noMatchingWorkOrders>
+        <tr>
+          <td colspan="12">
+            There are no matching work orders for this filtering criteria.
+          </td>
+        </tr>
+      </ng-template>
+    </tbody>
+  </table>
+  <div class="input-container">
+    <label for="description">Filter work orders by their description</label>
+    <input [formControl]="searchByDescriptionFormControl" id="description">
+    <div class="buttons-container">
+      <button [disabled]="searchByDescriptionFormControl.invalid"
+        (click)="filterWorkOrdersByDescription()">Confirm</button>
+      <button [disabled]="fetchedWorkOrders.toString() === filteredWorkOrders.toString()"
+        (click)="resetFilters()">Reset</button>
+    </div>
+  </div>
+</ng-container>
+
+<ng-template #loading>
+  Loading...
+</ng-template>
