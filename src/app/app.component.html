@@ -1,0 +1,48 @@
+<ng-container *ngIf="workOrders | async as workOrders; else loading">
+  <h1>Work Orders Table</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>WO ID</th>
+        <th>Description</th>
+        <th>Received date</th>
+        <th>Assigned to</th>
+        <th>Status</th>
+        <th>Priority</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let order of workOrders">
+        <td>
+          {{order.work_order_id}}
+        </td>
+        <td>
+          {{order.description}}
+        </td>
+        <td>
+          {{order.received_date | date: 'medium'}}
+        </td>
+        <td>
+          <ng-container *ngIf="order.assigned_to?.length; else noAssignment">
+            <p *ngFor="let assignment of order.assigned_to">
+              {{assignment.person_name}}
+            </p>
+          </ng-container>
+          <ng-template #noAssignment>
+            <p>N/A</p>
+          </ng-template>
+        </td>
+        <td>
+          {{order.status}}
+        </td>
+        <td>
+          {{order.priority}}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</ng-container>
+
+<ng-template #loading>
+  Loading...
+</ng-template>
