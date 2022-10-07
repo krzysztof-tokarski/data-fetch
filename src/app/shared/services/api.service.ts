@@ -10,7 +10,7 @@ import { WorkOrder } from '../models/work-order/work-order.model';
 export class ApiService {
   public getWorkOrders(): Promise<ApiResponse<PaginatedList<WorkOrder[]>>> {
     return new Promise((response) =>
-      setTimeout(() => response(WorkOrdersPaginatedList), 2500)
+      setTimeout(() => response(WorkOrdersPaginatedList), 500)
     );
   }
 }
